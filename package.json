@@ -11,10 +11,10 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@nuxtjs/axios": "^5.3.4",
     "cross-env": "^5.2.0",
-    "nuxt": "^2.0.0",
     "element-ui": "^2.4.6",
-    "@nuxtjs/axios": "^5.0.0"
+    "nuxt": "^2.2.0"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"
