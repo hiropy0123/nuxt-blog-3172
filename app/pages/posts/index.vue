@@ -18,6 +18,8 @@
 </template>
 
 <script>
+// Element UI table
+// https://element.eleme.io/#/en-US/component/table
 export default {
   computed: {
     showPosts() {
