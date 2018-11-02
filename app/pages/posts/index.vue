@@ -41,6 +41,15 @@ export default {
           user: {
             id: 'hiropy0123'
           }
+        },
+        {
+          id: '003',
+          title: 'Deployment Nuxt.js Application to Heroku',
+          body: 'Lorem ipsum sit amet ...',
+          created_at: '20018/10/30 14:00:00',
+          user: {
+            id: 'hiropy0123'
+          }
         }
       ]
     }
