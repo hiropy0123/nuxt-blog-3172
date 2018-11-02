@@ -1,4 +1,3 @@
-const pkg = require('./package')
 
 module.exports = {
   mode: 'universal',
@@ -13,7 +12,7 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: pkg.description }
+      { hid: 'description', name: 'description', content: '' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -52,6 +51,10 @@ module.exports = {
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
     baseURL: 'https://nuxt-blog-0123.firebaseio.com'
+  },
+
+  router: {
+    middleware: 'auth-cookie'
   },
 
   /*
