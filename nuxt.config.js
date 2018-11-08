@@ -54,7 +54,7 @@ module.exports = {
   },
 
   router: {
-    middleware: 'auth-cookie'
+    middleware: ['auth-cookie']
   },
 
   /*

@@ -13,7 +13,7 @@
           <el-checkbox v-model="isCreateMode">アカウントを作成する</el-checkbox>
         </div>
         <div class="text-right">
-          <el-button type="primary">{{ buttonText }}</el-button>
+          <el-button type="primary" @click="handleClickSubmit">{{ buttonText }}</el-button>
         </div>
       </form>
     </el-card>
