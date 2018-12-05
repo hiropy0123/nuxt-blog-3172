@@ -62,7 +62,7 @@ export default {
             title: 'アカウントの作成完了',
             message: `${this.formData.id} として登録しました`,
             position: 'bottom-right',
-            duration: 1000
+            duration: 5000
           })
           cookies.set('user', JSON.stringify(this.user))
           this.$router.push('/posts/')
@@ -72,7 +72,7 @@ export default {
             title: 'アカウント作成失敗',
             message: 'すでに登録されているか、不正なユーザーIDです',
             position: 'bottom-right',
-            duration: 1000
+            duration: 5000
           })
         }
       } else {
@@ -84,7 +84,7 @@ export default {
             title: 'ログイン成功',
             message: `${this.formData.id} としてログインしました`,
             position: 'bottom-right',
-            duration: 1000
+            duration: 5000
           })
           cookies.set('user', JSON.stringify(this.user))
           this.$router.push('/posts/')
@@ -94,12 +94,12 @@ export default {
             title: 'ログイン失敗',
             message: '不正なユーザーIDです',
             position: 'bottom-right',
-            duration: 1000
+            duration: 5000
           })
         }
       }
     },
-    ...mapActions([ 'login', 'register' ])
+    ...mapActions(['login', 'register'])
   }
 }
 </script>
