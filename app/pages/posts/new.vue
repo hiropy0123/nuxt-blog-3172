@@ -3,6 +3,12 @@
     <el-card style="flex: 1;">
       <div slot="header" class="clearfix">
         <el-input 
+          placeholder="タイトルを入力・・・" 
+          v-model="formData.title"
+        />
+      </div>
+      <div>
+        <el-input 
           placeholder="本文を入力・・・" 
           type="textarea" 
           rows="15" 
@@ -38,9 +44,16 @@ export default {
     ...mapGetters(['user'])
   },
   methods: {
-    publish() {
-
-    }
+    async publish() {
+      const payload = {
+        user: this.user,
+        ...this.formData
+      }
+      await this.publishPost({ payload })
+      this.$router.push('/posts')
+    },
+    ...mapActions('users', ['updateUser']),
+    ...mapActions('posts', ['publishPost'])
   }
 }
 </script>
