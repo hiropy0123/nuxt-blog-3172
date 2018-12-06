@@ -26,6 +26,12 @@ export const mutations = {
 }
 
 export const actions = {
+  // fetchPost 投稿記事１件だけ取得 firebase -> VuexStore
+  async fetchPost({ commit }, { id }) {
+    const post = await this.$axios.$get(`/posts/${id}.json`)
+    commit('addPost', { post: { ...post, id } })
+  },
+
   // fetchPosts Vuex Storeに一覧を取得  firebase -> VuexStore
   async fetchPosts({ commit }) {
     const posts = await this.$axios.$get(`/posts.json`)

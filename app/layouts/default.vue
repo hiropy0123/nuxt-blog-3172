@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="wrapper">
     <TheHeader />
     <nuxt class="container" />
   </div>
@@ -14,3 +14,11 @@ export default {
   }
 }
 </script>
+
+<style>
+.wrapper {
+  max-width: 1080px;
+  padding: 0 20px;
+  margin: auto;
+}
+</style>

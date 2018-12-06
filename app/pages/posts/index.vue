@@ -6,7 +6,8 @@
       </div>
       <el-table
         :data="showPosts"
-        style="width: 100%"
+        style="width: 100%" 
+        @row-click="handleClick"
         class="table"
       >
         <el-table-column prop="title" label="タイトル"></el-table-column>
@@ -18,6 +19,9 @@
 </template>
 
 <script>
+import moment from '~/plugins/moment'
+import { mapGetters } from 'vuex'
+
 // Element UI table
 // https://element.eleme.io/#/en-US/component/table
 export default {
@@ -26,35 +30,18 @@ export default {
   },
   computed: {
     showPosts() {
-      return [
-        {
-          id: '001',
-          title: 'How to development Nuxt.js Application',
-          body: 'Lorem ipsum sit amet ...',
-          created_at: '20018/10/30 12:00:00',
-          user: {
-            id: 'hiropy0123'
-          }
-        },
-        {
-          id: '002',
-          title: 'Deployment Nuxt.js Application to Heroku',
-          body: 'Lorem ipsum sit amet ...',
-          created_at: '20018/10/30 13:00:00',
-          user: {
-            id: 'hiropy0123'
-          }
-        },
-        {
-          id: '003',
-          title: 'Deployment Nuxt.js Application to Heroku',
-          body: 'Lorem ipsum sit amet ...',
-          created_at: '20018/10/30 14:00:00',
-          user: {
-            id: 'hiropy0123'
-          }
-        }
-      ]
+      // https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/map
+      // map() メソッドは、与えられた関数を配列のすべての要素に対して呼び出し、その結果からなる新しい配列を生成します。
+      return this.posts.map( post => {
+        post.created_at = moment(post.created_at).format('YYYY/MM/DD HH:mm:ss')
+        return post
+      })
+    },
+    ...mapGetters('posts', ['posts'])
+  },
+  methods: {
+    handleClick(post) {
+      this.$router.push(`/posts/${post.id}`)
     }
   }
   
