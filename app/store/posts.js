@@ -5,43 +5,32 @@ export const state = () => ({
 })
 
 export const getters = {
-  posts: (state) => state.posts
+  posts: state => state.posts.map(post => Object.assign({ likes: [] }, post))
 }
 
 export const mutations = {
-  // 投稿の追加
   addPost(state, { post }) {
     state.posts.push(post)
   },
-
-  // 投稿の更新
   updatePost(state, { post }) {
-    state.posts = state.posts.map((p) => (p.id === post.id ? post : p))
+    state.posts = state.posts.map(p => (p.id === post.id ? post : p))
   },
-
-  // 投稿のクリア
   clearPosts(state) {
     state.posts = []
   }
 }
 
 export const actions = {
-  // fetchPost 投稿記事１件だけ取得 firebase -> VuexStore
   async fetchPost({ commit }, { id }) {
     const post = await this.$axios.$get(`/posts/${id}.json`)
     commit('addPost', { post: { ...post, id } })
   },
-
-  // fetchPosts Vuex Storeに一覧を取得  firebase -> VuexStore
   async fetchPosts({ commit }) {
     const posts = await this.$axios.$get(`/posts.json`)
-    commit('clearPosts') // まず投稿のクリア
-
-    // Object.entries()メソッド
-    // https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Object/entries
-    Object.entries(posts)
-      .reverse() // 最新の投稿が上に来るように順番を反転
-      .forEach( ([id, content]) => 
+    commit('clearPosts')
+    Object.entries(posts || [])
+      .reverse()
+      .forEach(([id, content]) =>
         commit('addPost', {
           post: {
             id,
@@ -50,12 +39,14 @@ export const actions = {
         })
       )
   },
-
-  // publishPost
   async publishPost({ commit }, { payload }) {
     const user = await this.$axios.$get(`/users/${payload.user.id}.json`)
-    const post_id = (await this.$axios.$post('/posts.json', payload)).name
     const created_at = moment().format()
+    payload = {
+      created_at,
+      ...payload
+    }
+    const post_id = (await this.$axios.$post('/posts.json', payload)).name
     const post = { id: post_id, ...payload, created_at }
     const putData = { id: post_id, ...payload, created_at }
     delete putData.user
@@ -64,5 +55,19 @@ export const actions = {
       putData
     ])
     commit('addPost', { post })
+  },
+  async addLikeToPost({ commit }, { user, post }) {
+    post.likes.push({
+      created_at: moment().format(),
+      user_id: user.id,
+      post_id: post.id
+    })
+    const newPost = await this.$axios.$put(`/posts/${post.id}.json`, post)
+    commit('updatePost', { post: newPost })
+  },
+  async removeLikeToPost({ commit }, { user, post }) {
+    post.likes = post.likes.filter(like => like.user_id !== user.id) || []
+    const newPost = await this.$axios.$put(`/posts/${post.id}.json`, post)
+    commit('updatePost', { post: newPost })
   }
 }
